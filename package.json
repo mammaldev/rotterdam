@@ -1,0 +1,54 @@
+{
+  "author": "Oliver Relph <ollie@mammal.io> (http://mammal.io)",
+  "name": "rotterdam",
+  "description": "Manage running of docker containers",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mammaldev/rotterdam.git"
+  },
+  "main": "index.js",
+  "engines": {
+    "node": "~v0.10.26"
+  },
+  "bin": {
+    "rotterdam": "bin/rotterdam"
+  },
+  "dependencies": {
+    "redis": "^0.10.3",
+    "hiredis": "^0.1.16",
+    "qedis": "git://github.com/mammaldev/qedis#v0.2.0",
+    "docker.io": "^0.9.8",
+    "dockerode": "^2.0.1",
+    "q": "^1.0.1",
+    "winston": "^0.7.3",
+    "express": "~3.4.4",
+    "connect-flash": "^0.1.1",
+    "nunjucks": "^1.0.5",
+    "basic-auth": "^1.0.0",
+    "hipache": "^0.3.1"
+  },
+  "devDependencies": {
+    "chai": "~1.9.1",
+    "chai-as-promised": "^4.1.1",
+    "istanbul": "^0.3.0",
+    "mocha": "~1.20.1",
+    "sinon": "^1.10.3",
+    "redis-mock": "git://github.com/mammaldev/redis-mock.git#24cf99f190b3c1b4c4b975bc8285f27dc610a886",
+    "proxyquire": "^1.0.1",
+    "xtend": "^4.0.0"
+  },
+  "scripts": {
+    "test": "./node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- ./test/ --recursive -R spec"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "keywords": [
+    "docker",
+    "redis",
+    "ci",
+    "hipache"
+  ],
+  "license": "MIT"
+}

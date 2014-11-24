@@ -1,0 +1,55 @@
+#!/usr/bin/env node
+
+var spawn = require('child_process').spawn;
+var path = require('path');
+
+var nodeBin = process.env._;
+
+var options = {
+  cwd: process.cwd(),
+  env: process.env,
+};
+
+try {
+  var processes = {
+    hipache: spawn(
+      nodeBin,
+      [
+        path.join(__dirname, '../node_modules/.bin/hipache'),
+        '--config',
+        path.join(__dirname, '../config/hipache.conf.json'),
+      ],
+      options
+    ),
+    rotterdam: spawn(
+      nodeBin,
+      [
+        path.join(__dirname, '../index.js')
+      ],
+      options
+    ),
+  };
+
+  Object.keys(processes).forEach(function ( processName ) {
+    [ 'stdout', 'stderr' ].forEach(function( output ) {
+      processes[ processName ][ output ].on('data', function( data ) {
+        process[ output ].write(
+          data.toString('utf8')
+          .replace(/(^|\n)([^\n]+)/g, function( match, group1, group2 ) {
+            return group1 + processName + ': ' + group2;
+          })
+        );
+      })
+      .on('close', function ( code ) {
+        if ( code ) {
+          return process.stdout.write(processName + ' ' + output + ': exited with code: ' + code);
+        }
+        process.stdout.write(processName + ' ' + output + ': finished' + '\n');
+      });
+    });
+  });
+} catch ( err ) {
+  console.error(err.message);
+  console.error(err.stack);
+  process.exit(1);
+}
